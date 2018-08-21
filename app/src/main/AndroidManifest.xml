@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.udacity.garuolis.groceryreviews">
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <application
+        android:name=".App"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ReviewEditActivity"
+            android:label="@string/title_activity_review_edit"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <receiver android:name=".widget.GroceryWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="groceryreviews.ACTION_DATA_UPDATED"/>
+                <action android:name="groceryreviews.ACTION_LIST_ITEM_CLICKED"/>
+                <action android:name="groceryreviews.ACTION_EDIT_CLICKED"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_shopping_list_settings"/>
+        </receiver>
+
+        <service
+            android:name=".widget.GroceryWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"/>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.com.vansuita.pickimage.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/picker_provider_paths"/>
+        </provider>
+
+        <activity android:name=".BaseActivity">
+        </activity>
+        <activity
+            android:name=".ProductListActivity"
+            android:label="@string/title_activity_product_list"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+    </application>
+
+</manifest>

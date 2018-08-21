@@ -1,6 +1,5 @@
 package com.udacity.garuolis.groceryreviews.data;
 
-import com.github.slugify.Slugify;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
@@ -8,22 +7,26 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @IgnoreExtraProperties
-public class Product {
-    public final static String NODE = "products";
+public class ProductReview {
+    public final static String NODE = "product_reviews";
 
-    public String id;
-    public String title;
-    public String slug;
+    public String review;
+    public float rating;
 
-    @PropertyName("category_id")
-    public String categoryId;
+    @PropertyName("product_id")
+    public String productId;
 
-    private HashMap<String, Object> timestampCreated;
+    @PropertyName("image_id")
+    public String imageId;
 
-    @Exclude
-    public ProductCategory category;
+    @PropertyName("user_id")
+    public String userId;
+
+    @PropertyName("user_name")
+    public String userName;
 
     @Exclude
     public ReviewImage image;
@@ -31,14 +34,16 @@ public class Product {
     @Exclude
     public StorageReference imageRef;
 
-    public Product() {
+    private HashMap<String, Object> timestampCreated;
 
+    public ProductReview (){
     }
 
-    public Product(String id, String title, String slug) {
-        this.id     = id;
-        this.title  = title;
-        this.slug   = slug;
+    public ProductReview(String productId, float rating, String review) {
+        this.review             = review;
+        this.rating             = rating;
+        this.productId          = productId;
+
         HashMap<String, Object> timestampNow = new HashMap<>();
         timestampNow.put("timestamp", ServerValue.TIMESTAMP);
         this.timestampCreated = timestampNow;
@@ -50,9 +55,6 @@ public class Product {
 
     @Exclude
     public long getTimestampCreatedLong(){
-        if (timestampCreated != null) {
-            return (long) timestampCreated.get("timestamp");
-        }
-        return 0;
+        return (long)timestampCreated.get("timestamp");
     }
 }
