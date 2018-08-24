@@ -55,8 +55,6 @@ public class BaseActivity extends AppCompatActivity {
         mUser = mAuth.getCurrentUser();
         if (mUser == null) {
             authenticateUser();
-        } else {
-            Log.v("mano", "my user: " + mUser.getUid());
         }
     }
 
@@ -65,7 +63,6 @@ public class BaseActivity extends AppCompatActivity {
         mAuth.signInAnonymously().addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 mUser = mAuth.getCurrentUser();
-                Log.v("mano", "user auth: " + mUser.getUid());
                 SharedPreferences prefs = getSharedPreferences(PREFERENCES, MODE_PRIVATE);
                 boolean firstLaunch = prefs.getBoolean(PREF_FIRST_LAUNCH, true);
                 if (firstLaunch) {
@@ -75,14 +72,13 @@ public class BaseActivity extends AppCompatActivity {
                     edit.commit();
                 }
             } else {
-                Toast.makeText(BaseActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BaseActivity.this, R.string.error_auth_failed, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
+    // creating dummy content
     private void createInitialData() {
-        Log.v("mano", "creating initial data");
         createDummyData(new Product("cheese", "Test Cheese", "cheese"), new ProductReview(getUserId(), "cheese", "cheese", 4.5f, "Delicious cheese product."), "milk", "Milk Products");
         createDummyData(new Product("apples", "These Apples", "apples"), new ProductReview(getUserId(), "apples", "apples", 3.0f, "Weird, but tasty apples."), "fruits", "Fruits");
         createDummyData(new Product("cake", "Sweet Cake", "cake"), new ProductReview(getUserId(), "cake", "cake", 5.0f, "Who doesn't like cake?"), "sweets", "Sweets");

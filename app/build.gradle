@@ -74,6 +74,8 @@ dependencies {
 
 apply plugin: 'com.google.gms.google-services'
 
+/*
+// forcing to clear the build dir this way fixes a lot of gradle build interruptions in my machine
 task customClean(type: Exec) {
     ext.lockhunter = '"C:\\LockHunter\\LockHunter.exe"'
     ext.buildDir = file(new File("build"))
@@ -82,3 +84,4 @@ task customClean(type: Exec) {
 }
 
 preBuild.dependsOn customClean
+*/

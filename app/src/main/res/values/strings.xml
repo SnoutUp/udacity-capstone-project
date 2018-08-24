@@ -53,6 +53,7 @@
 
     <string name="info_review_added">Product review added.</string>
     <string name="error_image_upload_failed">Image upload failed.</string>
+    <string name="error_auth_failed">User authentification failed</string>
 
     <!-- Accessibility -->
     <string name="cd_product_search_button">Product lookup button</string>
@@ -61,6 +62,9 @@
     <string name="cd_edit_shopping_list">Edit icon</string>
     <string name="cd_checkbox_icon">Checkbox icon</string>
     <string name="cd_review_image">Product review photo</string>
+
+    <string name="cd_fab_new_review">New review button</string>
+    <string name="cd_fab_share">Share review button</string>
 
     <!-- Search Strings -->
     <string name="search_hint">Product Search</string>
