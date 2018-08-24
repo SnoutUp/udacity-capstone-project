@@ -27,6 +27,7 @@
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="#ffffff"
+            android:layout_marginEnd="@dimen/item_padding"
             />
         <ImageView
             android:layout_weight="0"
@@ -36,6 +37,7 @@
             android:scaleType="centerInside"
             android:padding="@dimen/icon_padding"
             android:layout_gravity="center_vertical"
+            android:contentDescription="@string/cd_edit_shopping_list"
             />
     </LinearLayout>
 

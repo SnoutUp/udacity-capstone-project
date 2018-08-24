@@ -12,18 +12,26 @@ import java.util.Map;
 @IgnoreExtraProperties
 public class ProductReview {
     public final static String NODE = "product_reviews";
+    public final static String NODE_USER = "user_product_reviews";
+
+    public String id;
 
     public String review;
     public float rating;
 
+    public Product product;
+
     @PropertyName("product_id")
     public String productId;
+
+    @PropertyName("product_title")
+    public String productTitle;
 
     @PropertyName("image_id")
     public String imageId;
 
     @PropertyName("user_id")
-    public String userId;
+    private String userId;
 
     @PropertyName("user_name")
     public String userName;
@@ -39,7 +47,9 @@ public class ProductReview {
     public ProductReview (){
     }
 
-    public ProductReview(String productId, float rating, String review) {
+    public ProductReview(String userId, String id, String productId, float rating, String review) {
+        this.id                 = id;
+        this.userId             = userId;
         this.review             = review;
         this.rating             = rating;
         this.productId          = productId;

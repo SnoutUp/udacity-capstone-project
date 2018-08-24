@@ -17,12 +17,12 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class BaseActivity extends AppCompatActivity {
-    public final static String TAG = BaseActivity.class.getName();
+    private final static String TAG = BaseActivity.class.getName();
 
-    protected FirebaseAuth mAuth;
-    protected DatabaseReference mDatabase;
-    protected StorageReference mStorage;
-    protected FirebaseUser mUser;
+    private FirebaseAuth mAuth;
+    DatabaseReference mDatabase;
+    StorageReference mStorage;
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,31 +31,37 @@ public class BaseActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mStorage = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-
-        Log.v("mano", "BaseActivityLaunch");
     }
 
+    String getUserId() {
+        if (mUser != null) {
+            return mUser.getUid();
+        }
+        return "udacity-user";
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
+        setupUser();
+    }
 
+    private void setupUser() {
         mUser = mAuth.getCurrentUser();
         if (mUser == null) {
-            Log.v(TAG, "Trying to auth: " + mUser.toString());
             authenticateUser();
         }
     }
 
 
-    protected void authenticateUser() {
+    private void authenticateUser() {
         mAuth.signInAnonymously().addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     // Sign in success, update UI with the signed-in user's information
-                    FirebaseUser user = mAuth.getCurrentUser();
-                    Log.d(TAG, "signInAnonymously:success " + user.getDisplayName() + " " + user.getUid());
+                    mUser = mAuth.getCurrentUser();
+                    Log.d(TAG, "signInAnonymously:success " + mUser.getDisplayName() + " " + mUser.getUid());
                     //updateUI(user);
                 } else {
                     // If sign in fails, display a message to the user.

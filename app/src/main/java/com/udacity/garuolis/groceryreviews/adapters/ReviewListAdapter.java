@@ -24,9 +24,9 @@ import java.util.Date;
 import java.util.List;
 
 public class ReviewListAdapter extends RecyclerView.Adapter <ReviewListAdapter.ViewHolder> {
-    List<ProductReview> items;
-    ItemClickListener mListener;
-    Context mContext;
+    private List<ProductReview> items;
+    private ItemClickListener mListener;
+    private Context mContext;
 
     DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -54,7 +54,8 @@ public class ReviewListAdapter extends RecyclerView.Adapter <ReviewListAdapter.V
         ProductReview item = items.get(position);
 
         Date dateCreated = new Date(item.getTimestampCreatedLong());
-        holder.mTitleView.setText(sdf.format(dateCreated));
+        holder.mTitleView.setText(item.productTitle);
+        //holder.mTitleView.setText(sdf.format(dateCreated));
         holder.mReviewView.setText(item.review);
         holder.mRatingBar.setRating(item.rating);
         holder.mRatingBar.setIsIndicator(true);
@@ -79,13 +80,13 @@ public class ReviewListAdapter extends RecyclerView.Adapter <ReviewListAdapter.V
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTitleView;
-        public TextView mReviewView;
+        TextView mTitleView;
+        TextView mReviewView;
 
-        public RatingBar mRatingBar;
-        public ImageView mImageView;
+        RatingBar mRatingBar;
+        ImageView mImageView;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super (v);
             mTitleView  = v.findViewById(R.id.tv_title);
             mReviewView = v.findViewById(R.id.tv_review);
@@ -95,6 +96,6 @@ public class ReviewListAdapter extends RecyclerView.Adapter <ReviewListAdapter.V
     }
 
     public interface ItemClickListener {
-        public void onClick(ProductReview product);
+        void onClick(ProductReview product);
     }
 }

@@ -24,7 +24,7 @@
             android:background="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:title="@string/app_name">
+            app:title="@string/app_title">
 
         </android.support.v7.widget.Toolbar>
 
@@ -61,6 +61,17 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_plus_white_48dp"
+        />
 </android.support.design.widget.CoordinatorLayout>
 </layout>

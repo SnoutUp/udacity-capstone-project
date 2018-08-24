@@ -3,11 +3,11 @@ package com.udacity.garuolis.groceryreviews.data;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class User {
+class User {
     public final static String NODE = "users";
 
-    public String username;
-    public String email;
+    private String username;
+    private String email;
 
     public User() {
 

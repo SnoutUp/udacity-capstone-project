@@ -21,6 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.udacity.garuolis.groceryreviews.R;
 import com.udacity.garuolis.groceryreviews.adapters.ReviewListAdapter;
+import com.udacity.garuolis.groceryreviews.data.MyUtils;
 import com.udacity.garuolis.groceryreviews.data.ProductReview;
 import com.udacity.garuolis.groceryreviews.databinding.FragmentReviewListBinding;
 
@@ -29,31 +30,26 @@ import java.util.Collections;
 import java.util.List;
 
 public class ReviewListFragment extends Fragment implements ReviewListAdapter.ItemClickListener{
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
+    private static final String ARG_USER_ID = "user_id";
     private FirebaseDatabase mDatabase;
     private FirebaseStorage mStorage;
-    private OnFragmentInteractionListener mListener;
+    private ReviewItemClickListener mListener;
 
-    ValueEventListener mValueListener;
+    private ValueEventListener mValueListener;
 
-    List<ProductReview> mReviewList;
-    ReviewListAdapter mAdapter;
+    private List<ProductReview> mReviewList;
+    private ReviewListAdapter mAdapter;
+    private FragmentReviewListBinding mBinding;
 
-    FragmentReviewListBinding mBinding;
+    private String mUserId;
 
     public ReviewListFragment() {
     }
 
-    public static ReviewListFragment newInstance(String param1, String param2) {
+    public static ReviewListFragment newInstance(String userId) {
         ReviewListFragment fragment = new ReviewListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_USER_ID, userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,17 +57,13 @@ public class ReviewListFragment extends Fragment implements ReviewListAdapter.It
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setupFragment();
-
-
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mUserId = getArguments().getString(ARG_USER_ID);
         }
     }
 
-    public void setupFragment() {
+    private void setupFragment() {
         mDatabase = FirebaseDatabase.getInstance();
         mStorage = FirebaseStorage.getInstance();
 
@@ -83,7 +75,7 @@ public class ReviewListFragment extends Fragment implements ReviewListAdapter.It
                 mReviewList.clear();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                     ProductReview review = snapshot.getValue(ProductReview.class);
-                    review.imageRef = mStorage.getReference().child("images").child(snapshot.getKey() + ".jpg");
+                    review.imageRef = mStorage.getReference().child(MyUtils.ImagePath(review.id));
                     mReviewList.add(review);
                 }
 
@@ -103,34 +95,25 @@ public class ReviewListFragment extends Fragment implements ReviewListAdapter.It
         mBinding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ReviewListAdapter(getContext(), this);
         mBinding.rvList.setAdapter(mAdapter);
+        mBinding.rvList.setEmptyViewDetails(getString(R.string.review_list_is_empty), R.drawable.ic_food);
+
         startDbListeners();
         return mBinding.getRoot();
     }
 
-    public void startDbListeners() {
-        Query mProductQuery = mDatabase.getReference().child(ProductReview.NODE);
-        mProductQuery.addValueEventListener(mValueListener);
+    private void startDbListeners() {
+        mDatabase.getReference().child(ProductReview.NODE_USER).child(mUserId).addValueEventListener(mValueListener);
     }
 
-    public void stopDbListeners() {
-        Query mProductQuery = mDatabase.getReference().child(ProductReview.NODE);
-        mProductQuery.removeEventListener(mValueListener);
-    }
-
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void stopDbListeners() {
+        mDatabase.getReference().child(ProductReview.NODE_USER).child(mUserId).removeEventListener(mValueListener);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof ReviewItemClickListener) {
+            mListener = (ReviewItemClickListener) context;
         }
     }
 
@@ -142,12 +125,13 @@ public class ReviewListFragment extends Fragment implements ReviewListAdapter.It
     }
 
     @Override
-    public void onClick(ProductReview product) {
-
+    public void onClick(ProductReview productReview) {
+        if (mListener != null) {
+            mListener.onReviewClicked(productReview);
+        }
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    public interface ReviewItemClickListener {
+        void onReviewClicked(ProductReview productReview);
     }
 }

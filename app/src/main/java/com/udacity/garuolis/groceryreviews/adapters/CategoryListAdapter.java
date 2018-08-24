@@ -3,6 +3,7 @@ package com.udacity.garuolis.groceryreviews.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,11 @@ import java.util.Date;
 import java.util.List;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
-    String[] mTitles;
-    String[] mValues;
+    private String[] mTitles;
+    private String[] mValues;
 
-    ItemClickListener mListener;
-    Context mContext;
+    private ItemClickListener mListener;
+    private Context mContext;
     public CategoryListAdapter(Context context, ItemClickListener listener){
         mListener   = listener;
         mContext    = context;
@@ -52,7 +53,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.onClick(mValues[position]);
+                    mListener.onClick(mValues[position], mTitles[position]);
                 }
             });
         }
@@ -64,16 +65,16 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTitleView;
+        TextView mTitleView;
         public ImageView mImageView;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super (v);
             mTitleView = v.findViewById(R.id.tv_title);
         }
     }
 
     public interface ItemClickListener {
-        public void onClick(String categoryKey);
+        void onClick(String categoryKey, String categoryTitle);
     }
 }

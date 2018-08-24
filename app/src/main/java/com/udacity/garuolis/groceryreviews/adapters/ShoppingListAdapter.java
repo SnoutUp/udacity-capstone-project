@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -24,9 +25,9 @@ import java.util.Date;
 import java.util.List;
 
 public class ShoppingListAdapter extends RecyclerView.Adapter <ShoppingListAdapter.ViewHolder> {
-    List<ShopItem> items;
-    ItemClickListener mListener;
-    Context mContext;
+    private List<ShopItem> items;
+    private ItemClickListener mListener;
+    private Context mContext;
 
     public ShoppingListAdapter(Context context, ShoppingListAdapter.ItemClickListener listener){
         items = new ArrayList<>();
@@ -37,6 +38,10 @@ public class ShoppingListAdapter extends RecyclerView.Adapter <ShoppingListAdapt
     public void setItems(List<ShopItem> newItems) {
         this.items = newItems;
         notifyDataSetChanged();
+    }
+
+    public ShopItem getItem(int position) {
+        return items.get(position);
     }
 
     @NonNull
@@ -50,13 +55,21 @@ public class ShoppingListAdapter extends RecyclerView.Adapter <ShoppingListAdapt
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ShopItem item = items.get(position);
         holder.mTitleView.setText(item.productName);
-        holder.mCheckBox.setSelected(item.marked);
+        holder.mCheckBox.setChecked(item.marked);
 
         if (mListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mListener.onClick(item);
+                }
+            });
+
+            holder.mCheckBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CheckBox cb = (CheckBox) view;
+                    mListener.onChecked(item, cb.isChecked());
                 }
             });
         }
@@ -68,10 +81,10 @@ public class ShoppingListAdapter extends RecyclerView.Adapter <ShoppingListAdapt
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTitleView;
-        public CheckBox mCheckBox;
+        TextView mTitleView;
+        CheckBox mCheckBox;
 
-        public ViewHolder(View v) {
+        ViewHolder(View v) {
             super (v);
             mTitleView  = v.findViewById(R.id.tv_title);
             mCheckBox   = v.findViewById(R.id.cb_checkbox);
@@ -79,6 +92,7 @@ public class ShoppingListAdapter extends RecyclerView.Adapter <ShoppingListAdapt
     }
 
     public interface ItemClickListener {
-        public void onClick(ShopItem shopItem);
+        void onClick(ShopItem shopItem);
+        void onChecked(ShopItem shopItem, boolean state);
     }
 }

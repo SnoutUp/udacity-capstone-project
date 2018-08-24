@@ -26,4 +26,99 @@
         <item name="android:textColor">#ffffff</item>
     </style>
 
+    <style name="ProductHeaderTitle" parent="TextAppearance.AppCompat.Headline">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">@dimen/default_margin</item>
+        <item name="android:layout_marginLeft">@dimen/double_margin</item>
+        <item name="android:layout_marginStart">@dimen/double_margin</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/product_heading_size</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="ProductHeaderCategory" parent="TextAppearance.AppCompat.Subhead">
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:layout_marginLeft">@dimen/double_margin</item>
+        <item name="android:layout_marginStart">@dimen/double_margin</item>
+        <item name="android:textSize">@dimen/product_subheading_size</item>
+        <item name="android:shadowColor">#000000</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">2</item>
+    </style>
+
+    <style name="ProductReviewText" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">@dimen/product_review_size</item>
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+
+        <item name="android:layout_marginLeft">@dimen/double_margin</item>
+        <item name="android:layout_marginRight">@dimen/double_margin</item>
+    </style>
+
+    <style name="ShoppingListText" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">@dimen/product_review_size</item>
+        <item name="android:padding">@dimen/default_margin</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ReviewListText" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:layout_marginBottom">@dimen/default_margin</item>
+
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
+        <item name="android:layout_marginEnd">@dimen/default_margin</item>
+
+        <item name="android:layout_marginTop">28dp</item>
+        <item name="android:textSize">@dimen/item_product_review_size</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
+    <style name="ReviewListTitle" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:layout_marginBottom">@dimen/default_margin</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+        <item name="android:layout_marginRight">@dimen/default_margin</item>
+        <item name="android:layout_marginEnd">@dimen/default_margin</item>
+        <item name="android:layout_marginTop">@dimen/default_margin</item>
+        <item name="android:textSize">@dimen/item_product_review_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ListItemTitle" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/item_product_title_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+    </style>
+
+    <style name="ListItemCategory" parent="TextAppearance.AppCompat">
+        <item name="android:textSize">@dimen/item_product_category_size</item>
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+    </style>
+
+    <style name="ListRatingBar" parent="Base.Widget.AppCompat.RatingBar.Indicator">
+        <item name="android:layout_marginLeft">@dimen/default_margin</item>
+        <item name="android:layout_marginStart">@dimen/default_margin</item>
+        <item name="android:foregroundGravity">center_vertical</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:scaleX">0.7</item>
+        <item name="android:scaleY">0.7</item>
+
+        <item name="android:transformPivotY">0dp</item>
+        <item name="android:transformPivotX">0dp</item>
+    </style>
+
+    <style name="ToolbarExpanded" parent="TextAppearance.Design.CollapsingToolbar.Expanded">
+        <item name="android:visibility">gone</item>
+        <item name="android:textColor">@android:color/transparent</item>
+    </style>
+
+
 </resources>

@@ -27,12 +27,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class GroceryDataProvider implements RemoteViewsService.RemoteViewsFactory {
-
+class GroceryDataProvider implements RemoteViewsService.RemoteViewsFactory {
     private Context context;
-    private Intent intent;
-    private int widgetId;
-
     private List<ShopItem> mShopItems = new ArrayList<>();
 
     private FirebaseDatabase mDatabase;
@@ -40,14 +36,11 @@ public class GroceryDataProvider implements RemoteViewsService.RemoteViewsFactor
 
     public GroceryDataProvider(Context context, Intent intent) {
         this.context    = context;
-        this.intent     = intent;
 
         this.mDatabase  = FirebaseDatabase.getInstance();
         this.mUser      = FirebaseAuth.getInstance().getCurrentUser();
 
-        this.widgetId   = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-
-        Log.v("mano", "GroceryDataProvider()" + this.mUser.getUid() + " widgetid: " + this.widgetId);
+        //this.widgetId   = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         loadData();
     }
 
@@ -74,7 +67,7 @@ public class GroceryDataProvider implements RemoteViewsService.RemoteViewsFactor
         });
     }
 
-    public void widgetDataChanged(Context context) {
+    private void widgetDataChanged(Context context) {
         AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
         int[] appWidgetIds = widgetManager.getAppWidgetIds(new ComponentName(context, GroceryWidgetProvider.class));
         Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, context, GroceryWidgetProvider.class);

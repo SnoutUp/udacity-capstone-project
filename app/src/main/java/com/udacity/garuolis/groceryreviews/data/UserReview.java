@@ -4,7 +4,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
 
 @IgnoreExtraProperties
-public class UserReview {
+class UserReview {
     public final static String NODE = "user_reviews";
 
     @PropertyName("user_id")

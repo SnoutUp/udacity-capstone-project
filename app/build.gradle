@@ -3,10 +3,19 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
-    defaultConfig {
 
+    signingConfigs {
+        release {
+            storeFile file('../udacity.jks')
+            keyAlias "nanodegree"
+            storePassword "udacity"
+            keyPassword "udacity"
+        }
+    }
+
+    defaultConfig {
         applicationId "com.udacity.garuolis.groceryreviews"
-        minSdkVersion 15
+        minSdkVersion 17
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -21,6 +30,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -33,12 +43,16 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.android.support:design:27.1.1'
 
-    // adding support-media-compat and support-v4 explicably to avoid conflicts
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+
+    // adding certain libraries explicably to avoid conflicts
     implementation 'com.android.support:support-media-compat:27.1.1'
     implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.android.support:cardview-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:palette-v7:27.1.1'
 
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
@@ -53,7 +67,6 @@ dependencies {
 
     implementation 'com.github.jrvansuita:PickImage:2.2.3'
 
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

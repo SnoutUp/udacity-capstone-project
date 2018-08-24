@@ -1,13 +1,16 @@
 package com.udacity.garuolis.groceryreviews.adapters;
 
 import android.content.Context;
+import android.media.Rating;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -22,9 +25,9 @@ import java.util.Date;
 import java.util.List;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ViewHolder> {
-    List<Product> items;
-    ItemClickListener mListener;
-    Context mContext;
+    private List<Product> items;
+    private ItemClickListener mListener;
+    private Context mContext;
 
     DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -52,10 +55,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         Product item = items.get(position);
 
         Date dateCreated = new Date(item.getTimestampCreatedLong());
-        holder.mTitleView.setText(item.title + " " + sdf.format(dateCreated));
+        ///  + " " + sdf.format(dateCreated)
+        holder.mTitleView.setText(item.title);
+        holder.mCategoryView.setText(item.categoryTitle);
 
-        if (item.imageRef != null) {
-            Glide.with(mContext).using(new FirebaseImageLoader()).load(item.imageRef).into(holder.mImageView);
+        if (item.lastReview != null) {
+            holder.mRatingBar.setVisibility(View.VISIBLE);
+            holder.mRatingBar.setRating(item.lastReview.rating);
+            if (item.lastReview.imageRef != null) {
+                Glide.with(mContext).using(new FirebaseImageLoader()).load(item.lastReview.imageRef).into(holder.mImageView);
+            }
+        } else {
+            holder.mRatingBar.setVisibility(View.GONE);
         }
 
         if (mListener != null) {
@@ -63,6 +74,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 @Override
                 public void onClick(View view) {
                     mListener.onClick(item);
+                }
+            });
+
+            holder.mImageBasket.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onBasketButtonClick(item);
                 }
             });
         }
@@ -74,17 +92,24 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTitleView;
-        public ImageView mImageView;
+        TextView mTitleView;
+        TextView mCategoryView;
+        RatingBar mRatingBar;
 
-        public ViewHolder(View v) {
+        ImageView mImageView;
+        ImageButton mImageBasket;
+
+        ViewHolder(View v) {
             super (v);
             mTitleView = v.findViewById(R.id.tv_title);
-            mImageView = v.findViewById(R.id.iv_image);
+            mCategoryView = v.findViewById(R.id.tv_category);
+            mImageBasket = v.findViewById(R.id.ib_basket);
+            mRatingBar = v.findViewById(R.id.rb_rating);
         }
     }
 
     public interface ItemClickListener {
-        public void onClick(Product product);
+        void onClick(Product product);
+        void onBasketButtonClick(Product product);
     }
 }

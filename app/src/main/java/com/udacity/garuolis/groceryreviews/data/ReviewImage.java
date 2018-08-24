@@ -7,13 +7,13 @@ import com.google.firebase.database.PropertyName;
 public class ReviewImage {
     public final static String NODE = "review_images";
 
-    public String name;
+    private String name;
 
     @PropertyName("review_id")
-    public String reviewId;
+    private String reviewId;
 
     @PropertyName("product_id")
-    public String productId;
+    private String productId;
 
     public ReviewImage (){
 

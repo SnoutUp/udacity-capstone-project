@@ -5,22 +5,24 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.udacity.garuolis.groceryreviews.R;
-import com.udacity.garuolis.groceryreviews.adapters.ReviewListAdapter;
 import com.udacity.garuolis.groceryreviews.adapters.ShoppingListAdapter;
-import com.udacity.garuolis.groceryreviews.data.ProductReview;
 import com.udacity.garuolis.groceryreviews.data.ShopItem;
 import com.udacity.garuolis.groceryreviews.databinding.FragmentItemListBinding;
 
@@ -33,13 +35,13 @@ public class ShoppingListFragment extends Fragment implements ShoppingListAdapte
 
     private FirebaseDatabase mDatabase;
     private OnFragmentInteractionListener mListener;
-    ValueEventListener mValueListener;
-    List<ShopItem> mShoppingList;
-    ShoppingListAdapter mAdapter;
+    private ValueEventListener mValueListener;
+    private List<ShopItem> mShoppingList;
+    private ShoppingListAdapter mAdapter;
 
-    String userId;
+    private String mUserId;
 
-    FragmentItemListBinding mBinding;
+    private FragmentItemListBinding mBinding;
 
     public ShoppingListFragment() {
     }
@@ -58,11 +60,11 @@ public class ShoppingListFragment extends Fragment implements ShoppingListAdapte
         setupFragment();
 
         if (getArguments() != null) {
-            userId = getArguments().getString(ARG_USER_ID);
+            mUserId = getArguments().getString(ARG_USER_ID);
         }
     }
 
-    public void setupFragment() {
+    private void setupFragment() {
         mDatabase = FirebaseDatabase.getInstance();
         mShoppingList = new ArrayList<>();
 
@@ -91,25 +93,43 @@ public class ShoppingListFragment extends Fragment implements ShoppingListAdapte
         mBinding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ShoppingListAdapter(getContext(), this);
         mBinding.rvList.setAdapter(mAdapter);
+        mBinding.rvList.setEmptyViewDetails(getString(R.string.shopping_list_empty), R.drawable.ic_basket);
+
+        ItemTouchHelper swipeToDismissTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                Log.v("mano", "SWIPED " + direction);
+                deleteShoppingListItem(mAdapter.getItem(viewHolder.getAdapterPosition()));
+                mAdapter.notifyItemRemoved(viewHolder.getAdapterPosition());
+            }
+
+        });
+        swipeToDismissTouchHelper.attachToRecyclerView(mBinding.rvList);
         startDbListeners();
         return mBinding.getRoot();
     }
 
-    public void startDbListeners() {
-        Query mProductQuery = mDatabase.getReference().child(ShopItem.NODE).child(userId);
+    private void deleteShoppingListItem(ShopItem item) {
+        mDatabase.getReference().child(ShopItem.NODE).child(mUserId).child(item.productId).removeValue();
+        Snackbar.make(mBinding.rvList, getString(R.string.info_shopping_item_removed, item.productName), Snackbar.LENGTH_LONG).show();
+    }
+
+    private void startDbListeners() {
+        Query mProductQuery = mDatabase.getReference().child(ShopItem.NODE).child(mUserId);
         mProductQuery.addValueEventListener(mValueListener);
     }
 
-    public void stopDbListeners() {
-        Query mProductQuery = mDatabase.getReference().child(ShopItem.NODE).child(userId);
+    private void stopDbListeners() {
+        Query mProductQuery = mDatabase.getReference().child(ShopItem.NODE).child(mUserId);
         mProductQuery.removeEventListener(mValueListener);
     }
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -131,7 +151,14 @@ public class ShoppingListFragment extends Fragment implements ShoppingListAdapte
 
     }
 
-    public interface OnFragmentInteractionListener {
+    @Override
+    public void onChecked(ShopItem shopItem, boolean state) {
+        Log.v("mano", "checked " + shopItem.productName + " state: " + state);
+        DatabaseReference ref = mDatabase.getReference().child(ShopItem.NODE).child(shopItem.userId).child(shopItem.productId);
+        ref.child("marked").setValue(state);
+    }
+
+    private interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
 }

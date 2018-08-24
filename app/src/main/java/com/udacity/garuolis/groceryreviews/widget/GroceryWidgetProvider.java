@@ -18,25 +18,22 @@ import com.udacity.garuolis.groceryreviews.R;
 import com.udacity.garuolis.groceryreviews.data.ShopItem;
 
 public class GroceryWidgetProvider extends AppWidgetProvider {
-    public final static String ACTION_DATA_UPDATED      = "groceryreviews.ACTION_DATA_UPDATED";
-    public final static String ACTION_LIST_ITEM_CLICKED = "groceryreviews.ACTION_LIST_ITEM_CLICKED";
+    private final static String ACTION_DATA_UPDATED      = "groceryreviews.ACTION_DATA_UPDATED";
+    private final static String ACTION_LIST_ITEM_CLICKED = "groceryreviews.ACTION_LIST_ITEM_CLICKED";
     public final static String ACTION_EDIT_CLICKED      = "groceryreviews.ACTION_EDIT_CLICKED";
 
     public final static String EXTRA_USER_ID            = "user_id";
     public final static String EXTRA_PRODUCT_ID         = "product_id";
     public final static String EXTRA_ITEM_CHECK         = "item_check";
-    ;
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         final int N = appWidgetIds.length;
-        Log.v("mano", "Widget.onUpdate() " + N);
-
         for (int i=0; i<N; i++) {
             updateWidget(context, appWidgetManager, appWidgetIds[i]);
         }
     }
 
-    public void updateWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
+    private void updateWidget(Context context, AppWidgetManager appWidgetManager, int widgetId) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_shopping_list);
         setRemoteAdapter(context, views, widgetId);
 
@@ -56,28 +53,15 @@ public class GroceryWidgetProvider extends AppWidgetProvider {
     @Override
     public void onEnabled(Context context) {
         super.onEnabled(context);
-        Log.v("mano", "widget enabled");
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
-        Log.v("mano", "ON RECEIVE " + intent.getAction());
         String action = intent.getAction();
         if (action.equalsIgnoreCase(ACTION_LIST_ITEM_CLICKED)) {
             updateShoppingListState(intent.getStringExtra(EXTRA_USER_ID), intent.getStringExtra(EXTRA_PRODUCT_ID), intent.getBooleanExtra(EXTRA_ITEM_CHECK, false));
-        } else if (action.equalsIgnoreCase(ACTION_DATA_UPDATED)) {
-
         }
-
-        /*
-        AppWidgetManager widgetManager = AppWidgetManager.getInstance(context);
-        int[] appWidgetIds = widgetManager.getAppWidgetIds(new ComponentName(context, GroceryWidgetProvider.class));
-
-        Intent updateIntent = new Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE, null, context, GroceryWidgetProvider.class);
-        updateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
-
-        context.sendBroadcast(updateIntent);*/
     }
 
     private void updateShoppingListState(String userId, String productId, boolean marked) {

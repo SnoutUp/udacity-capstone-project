@@ -35,11 +35,11 @@ import java.util.List;
 public class ProductListFragment extends Fragment implements ProductListAdapter.ItemClickListener {
     private FirebaseDatabase mDatabase;
     private OnFragmentInteractionListener mListener;
-    ValueEventListener mValueListener;
-    List<Product> mProductList;
-    ProductListAdapter mAdapter;
+    private ValueEventListener mValueListener;
+    private List<Product> mProductList;
+    private ProductListAdapter mAdapter;
 
-    FragmentItemListBinding mBinding;
+    private FragmentItemListBinding mBinding;
 
     public ProductListFragment() {
     }
@@ -55,7 +55,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         setupFragment();
     }
 
-    public void setupFragment() {
+    private void setupFragment() {
         mDatabase = FirebaseDatabase.getInstance();
         mProductList = new ArrayList<>();
 
@@ -88,12 +88,12 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
         return mBinding.getRoot();
     }
 
-    public void startDbListeners() {
+    private void startDbListeners() {
         Query mProductQuery = mDatabase.getReference().child(Product.NODE);
         mProductQuery.addValueEventListener(mValueListener);
     }
 
-    public void stopDbListeners() {
+    private void stopDbListeners() {
         Query mProductQuery = mDatabase.getReference().child(Product.NODE);
         mProductQuery.removeEventListener(mValueListener);
     }
@@ -132,7 +132,12 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
 
     }
 
-    public interface OnFragmentInteractionListener {
+    @Override
+    public void onBasketButtonClick(Product product) {
+
+    }
+
+    interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }
 }

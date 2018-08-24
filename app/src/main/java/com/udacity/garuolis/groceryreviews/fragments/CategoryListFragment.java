@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -34,16 +35,15 @@ import java.util.List;
 
 public class CategoryListFragment extends Fragment  implements CategoryListAdapter.ItemClickListener{
     private FirebaseDatabase mDatabase;
-    CategoryListAdapter mAdapter;
-    CategorySelectListener mListener;
-    FragmentItemListBinding mBinding;
+    private CategoryListAdapter mAdapter;
+    private CategorySelectListener mListener;
+    private FragmentItemListBinding mBinding;
 
     public CategoryListFragment() {
     }
 
     public static CategoryListFragment newInstance() {
-        CategoryListFragment fragment = new CategoryListFragment();
-        return fragment;
+        return new CategoryListFragment();
     }
 
     @Override
@@ -65,6 +65,7 @@ public class CategoryListFragment extends Fragment  implements CategoryListAdapt
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof CategorySelectListener) {
+            Log.v("mano", "attach a listener");
             mListener = (CategorySelectListener) context;
         }
     }
@@ -76,15 +77,14 @@ public class CategoryListFragment extends Fragment  implements CategoryListAdapt
     }
 
     @Override
-    public void onClick(String categoryKey) {
+    public void onClick(String categoryKey, String categoryTitle) {
         Log.v("mano", "clicked: " + categoryKey);
-
         if (mListener != null) {
-            mListener.onCategorySelected(categoryKey);
+            mListener.onCategorySelected(categoryKey, categoryTitle);
         }
     }
 
     public interface CategorySelectListener {
-        void onCategorySelected(String categoryKey);
+        void onCategorySelected(String categoryKey, String categoryTitle);
     }
 }

@@ -15,18 +15,21 @@ public class Product {
 
     public String id;
     public String title;
-    public String slug;
+    private String slug;
 
-    @PropertyName("category_id")
-    public String categoryId;
+    @PropertyName("last_review")
+    public ProductReview lastReview;
+
+    @PropertyName("category_type")
+    public String categoryKey;
+
+    @PropertyName("category_title")
+    public String categoryTitle;
+
+    @PropertyName("image_id")
+    public String imageId;
 
     private HashMap<String, Object> timestampCreated;
-
-    @Exclude
-    public ProductCategory category;
-
-    @Exclude
-    public ReviewImage image;
 
     @Exclude
     public StorageReference imageRef;
