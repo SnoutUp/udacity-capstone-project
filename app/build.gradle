@@ -57,7 +57,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.firebase:firebase-database:16.0.1'
     implementation 'com.google.firebase:firebase-storage:16.0.1'
-    implementation 'com.google.firebase:firebase-auth:16.0.1'
+    implementation 'com.google.firebase:firebase-auth:16.0.3'
 
     implementation 'com.firebaseui:firebase-ui-storage:0.6.0'
 
@@ -77,7 +77,7 @@ apply plugin: 'com.google.gms.google-services'
 task customClean(type: Exec) {
     ext.lockhunter = '"C:\\LockHunter\\LockHunter.exe"'
     ext.buildDir = file(new File("build"))
-    println "Dir: {$buildDir} {$lockhunter}";
+    println "Dir: {$buildDir} {$lockhunter}"
     commandLine ext.lockhunter, '/delete', '/silent', "$ext.buildDir"
 }
 

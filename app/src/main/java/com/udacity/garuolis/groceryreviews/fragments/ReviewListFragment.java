@@ -2,10 +2,8 @@ package com.udacity.garuolis.groceryreviews.fragments;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.view.ViewGroup;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.udacity.garuolis.groceryreviews.R;
@@ -90,18 +87,18 @@ public class ReviewListFragment extends Fragment implements ReviewListAdapter.It
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_review_list, container, false);
         mBinding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ReviewListAdapter(getContext(), this);
         mBinding.rvList.setAdapter(mAdapter);
         mBinding.rvList.setEmptyViewDetails(getString(R.string.review_list_is_empty), R.drawable.ic_food);
-
         startDbListeners();
         return mBinding.getRoot();
     }
 
     private void startDbListeners() {
+        Log.v("mano", "listening to: " + mUserId);
         mDatabase.getReference().child(ProductReview.NODE_USER).child(mUserId).addValueEventListener(mValueListener);
     }
 
@@ -112,6 +109,7 @@ public class ReviewListFragment extends Fragment implements ReviewListAdapter.It
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+
         if (context instanceof ReviewItemClickListener) {
             mListener = (ReviewItemClickListener) context;
         }

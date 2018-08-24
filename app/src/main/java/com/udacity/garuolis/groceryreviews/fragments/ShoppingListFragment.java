@@ -88,7 +88,7 @@ public class ShoppingListFragment extends Fragment implements ShoppingListAdapte
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_item_list, container, false);
         mBinding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ShoppingListAdapter(getContext(), this);

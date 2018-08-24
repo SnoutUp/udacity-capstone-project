@@ -1,26 +1,21 @@
 package com.udacity.garuolis.groceryreviews;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
-import com.google.android.gms.common.util.IOUtils;
 import com.udacity.garuolis.groceryreviews.adapters.ApiSearchListAdapter;
 import com.udacity.garuolis.groceryreviews.data.MyUtils;
 import com.udacity.garuolis.groceryreviews.data.ProductSearchResult;
@@ -29,7 +24,6 @@ import com.udacity.garuolis.groceryreviews.databinding.ActivityProductSearchBind
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -97,7 +91,6 @@ public class ProductSearchActivity extends AppCompatActivity implements SearchVi
         @Override
         protected String doInBackground(String... params) {
             String url = params[0];
-            Log.v("mano", "url: " + url);
             String response = readJsonData(url);
             return response;
         }
@@ -151,10 +144,9 @@ public class ProductSearchActivity extends AppCompatActivity implements SearchVi
             reader = new BufferedReader(new InputStreamReader(stream));
 
             StringBuffer buffer = new StringBuffer();
-            String line = "";
-
+            String line;
             while ((line = reader.readLine()) != null) {
-                buffer.append(line+"\n");
+                buffer.append(line).append("\n");
             }
             return buffer.toString();
         } catch (MalformedURLException e) {

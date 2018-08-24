@@ -3,23 +3,13 @@ package com.udacity.garuolis.groceryreviews.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.udacity.garuolis.groceryreviews.R;
-import com.udacity.garuolis.groceryreviews.data.Product;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder> {
     private String[] mTitles;
@@ -43,8 +33,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String item = mTitles[position];
 
         holder.mTitleView.setText(item);
@@ -53,7 +42,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mListener.onClick(mValues[position], mTitles[position]);
+                    int pos = holder.getAdapterPosition();
+                    mListener.onClick(mValues[pos], mTitles[pos]);
                 }
             });
         }

@@ -1,6 +1,5 @@
 package com.udacity.garuolis.groceryreviews.data;
 
-import com.github.slugify.Slugify;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.firebase.database.PropertyName;
@@ -15,7 +14,7 @@ public class Product {
 
     public String id;
     public String title;
-    private String slug;
+    public String slug;
 
     @PropertyName("last_review")
     public ProductReview lastReview;

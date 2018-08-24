@@ -1,5 +1,6 @@
 <resources>
     <string name="app_title">Grocery Reviews</string>
+    <string name="app_author">Aurimas Garuolis</string>
     <string name="title_activity_review_edit">New Review</string>
     <string name="title_activity_product_review">Product Review</string>
     <string name="title_activity_product_search">Product Search</string>
@@ -41,6 +42,7 @@
     <string name="error_missing_category">Please, select product category.</string>
     <string name="error_missing_product_name">Product name is too short.</string>
     <string name="error_missing_review">Product review is too short.</string>
+    <string name="error_cant_upload">Can\'t upload image right now. Check your internet connection.</string>
 
     <!-- Alert Strings -->
     <string name="info_shopping_item_added">%s added to the shopping list.</string>
@@ -70,4 +72,8 @@
     <string name="review_list_is_empty">Review list is empty.\nStart reviewing products!</string>
     <string name="shopping_list_empty">Your shopping list is empty.\nTry adding products to it!</string>
     <string name="search_result_list_empty">List is empty.\nTry searching for a product in Edamam database.</string>
+
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

@@ -1,30 +1,21 @@
 package com.udacity.garuolis.groceryreviews;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
@@ -95,7 +86,9 @@ public class ProductReviewActivity extends BaseActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mProduct = dataSnapshot.getValue(Product.class);
-                displayProductData(mProduct);
+                if (mProduct != null) {
+                    displayProductData(mProduct);
+                }
             }
 
             @Override
@@ -111,7 +104,9 @@ public class ProductReviewActivity extends BaseActivity {
                 if (mProductReview != null && mProductReview.imageId != null) {
                     mProductReview.imageRef = mStorage.child(MyUtils.ImagePath(mProductReview.id));
                 }
-                displayReviewData(mProductReview);
+                if (mProductReview != null) {
+                    displayReviewData(mProductReview);
+                }
             }
 
             @Override
@@ -166,8 +161,6 @@ public class ProductReviewActivity extends BaseActivity {
                     mBinding.ivHeaderImage.setImageBitmap(resource);
                 }
             });
-        } else {
-            //mBinding.ivHeaderImage.setVisibility(View.GONE);
         }
     }
 
@@ -175,10 +168,14 @@ public class ProductReviewActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_to_list:
-                toggleShoppingList(mProduct);
+                if (mProduct != null) {
+                    toggleShoppingList(mProduct);
+                }
                 break;
             case R.id.action_delete:
-                showDeleteConfirmation(mProductReview);
+                if (mProductReview != null) {
+                    showDeleteConfirmation(mProductReview);
+                }
                 break;
             case android.R.id.home:
                 finish();

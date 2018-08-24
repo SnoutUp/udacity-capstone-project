@@ -7,7 +7,6 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
-import java.util.Map;
 
 @IgnoreExtraProperties
 public class ProductReview {
@@ -31,7 +30,7 @@ public class ProductReview {
     public String imageId;
 
     @PropertyName("user_id")
-    private String userId;
+    public String userId;
 
     @PropertyName("user_name")
     public String userName;

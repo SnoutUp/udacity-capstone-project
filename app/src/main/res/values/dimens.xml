@@ -24,6 +24,8 @@
     <dimen name="product_heading_size">24sp</dimen>
     <dimen name="product_subheading_size">18sp</dimen>
     <dimen name="product_review_size">18sp</dimen>
+    <dimen name="splash_title_size">54sp</dimen>
+    <dimen name="splash_subtitle_size">26sp</dimen>
 
     <dimen name="item_product_title_size">16sp</dimen>
     <dimen name="item_product_review_size">16sp</dimen>

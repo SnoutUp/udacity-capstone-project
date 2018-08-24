@@ -1,13 +1,14 @@
 package com.udacity.garuolis.groceryreviews.data;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.udacity.garuolis.groceryreviews.R;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLEncoder;
 
 public class MyUtils {
@@ -30,6 +31,13 @@ public class MyUtils {
 
     public static String ImagePath(String imageId) {
         return STORAGE_IMAGE_DIR + "/" + ImageFileName(imageId);
+    }
+
+    public static boolean IsConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 
     private static String ImageFileName(String imageId) {

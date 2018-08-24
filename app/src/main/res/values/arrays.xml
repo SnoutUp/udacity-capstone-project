@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="product_type_names">
-        <item>Meat</item>
-        <item>Seafood</item>
-        <item>Milk</item>
-        <item>Cheese</item>
+        <item>Meat Products</item>
+        <item>Milk Products</item>
+        <item>Bread</item>
         <item>Vegetables</item>
         <item>Fruits</item>
-        <item>Bread</item>
+        <item>Canned Goods</item>
         <item>Beverages</item>
+        <item>Sweets</item>
+        <item>Snacks</item>
+        <item>Other</item>
     </array>
     <array name="product_type_keys">
         <item>meat</item>
-        <item>seafood</item>
         <item>milk</item>
-        <item>cheese</item>
+        <item>bread</item>
         <item>vegetables</item>
         <item>fruits</item>
-        <item>bread</item>
+        <item>canned</item>
         <item>beverages</item>
+        <item>sweets</item>
+        <item>snacks</item>
+        <item>other</item>
     </array>
 </resources>

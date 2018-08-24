@@ -3,11 +3,9 @@ package com.udacity.garuolis.groceryreviews.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.udacity.garuolis.groceryreviews.R;
@@ -41,7 +39,7 @@ public class ApiSearchListAdapter extends RecyclerView.Adapter<ApiSearchListAdap
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         ProductSearchResult item = items.get(position);
 

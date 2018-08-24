@@ -3,7 +3,6 @@ package com.udacity.garuolis.groceryreviews.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.udacity.garuolis.groceryreviews.R;
-import com.udacity.garuolis.groceryreviews.data.Product;
 import com.udacity.garuolis.groceryreviews.data.ProductReview;
 
 import java.text.DateFormat;
@@ -22,13 +20,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ReviewListAdapter extends RecyclerView.Adapter <ReviewListAdapter.ViewHolder> {
     private List<ProductReview> items;
     private ItemClickListener mListener;
     private Context mContext;
 
-    DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
 
     public ReviewListAdapter(Context context, ReviewListAdapter.ItemClickListener listener){
         items = new ArrayList<>();

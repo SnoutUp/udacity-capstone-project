@@ -1,10 +1,8 @@
 package com.udacity.garuolis.groceryreviews.adapters;
 
 import android.content.Context;
-import android.media.Rating;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +27,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private ItemClickListener mListener;
     private Context mContext;
 
-    DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
     public ProductListAdapter(Context context, ItemClickListener listener){
         items = new ArrayList<>();
         mListener   = listener;
@@ -50,7 +46,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         Product item = items.get(position);
 

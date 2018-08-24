@@ -1,38 +1,28 @@
 package com.udacity.garuolis.groceryreviews;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
-import com.github.slugify.Slugify;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.udacity.garuolis.groceryreviews.adapters.ProductListAdapter;
 import com.udacity.garuolis.groceryreviews.data.Product;
 import com.udacity.garuolis.groceryreviews.data.ProductReview;
-import com.udacity.garuolis.groceryreviews.data.ReviewImage;
 import com.udacity.garuolis.groceryreviews.databinding.ActivityMainTabsBinding;
 import com.udacity.garuolis.groceryreviews.fragments.CategoryListFragment;
 import com.udacity.garuolis.groceryreviews.fragments.ReviewListFragment;
 import com.udacity.garuolis.groceryreviews.fragments.ShoppingListFragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 public class MainActivity extends BaseActivity  implements CategoryListFragment.CategorySelectListener, ReviewListFragment.ReviewItemClickListener {
-    public final static String EXTRA_START_TAB = "start_tab";
+    public final static String EXTRA_START_TAB      = "start_tab";
+
 
     private final static int TAB_PRODUCT_LIST    = 0;
     public final static int TAB_MY_REVIEWS      = 1;
@@ -83,7 +73,12 @@ public class MainActivity extends BaseActivity  implements CategoryListFragment.
                 showReviewEditActivity(null);
             }
         });
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v("mano", getUserId());
     }
 
     @Override
@@ -111,6 +106,7 @@ public class MainActivity extends BaseActivity  implements CategoryListFragment.
     }
 
     class SectionsPagerAdapter extends FragmentPagerAdapter {
+
 
         SectionsPagerAdapter(FragmentManager fm) {
             super(fm);

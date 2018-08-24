@@ -5,14 +5,9 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.RatingBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.slugify.Slugify;
@@ -20,7 +15,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
@@ -181,18 +175,23 @@ public class ReviewEditActivity extends BaseActivity implements IPickResult {
         int spinnerIndex= mBinding.content.spinProductCategory.getSelectedItemPosition();
         int categoryIndex = (spinnerIndex > 0) ? spinnerIndex - 1 : -1;
 
-        if (spinnerIndex <= 0) {
-            MyUtils.ShowErrorSnack(this, mBinding.body, R.string.error_missing_category);
-            return;
-        }
-
         if (name.length() <= 2) {
             MyUtils.ShowErrorSnack(this, mBinding.body, R.string.error_missing_product_name);
             return;
         }
 
+        if (spinnerIndex <= 0) {
+            MyUtils.ShowErrorSnack(this, mBinding.body, R.string.error_missing_category);
+            return;
+        }
+
         if (review.length() <= 5) {
             MyUtils.ShowErrorSnack(this, mBinding.body, R.string.error_missing_review);
+            return;
+        }
+
+        if (mSelectedImage != null && !MyUtils.IsConnected(this)) {
+            MyUtils.ShowErrorSnack(this, mBinding.body, R.string.error_cant_upload);
             return;
         }
 
@@ -213,8 +212,6 @@ public class ReviewEditActivity extends BaseActivity implements IPickResult {
         String newReviewKey = mDatabase.child(ProductReview.NODE).push().getKey();
         ProductReview productReview = new ProductReview(getUserId(), newReviewKey, mProduct.id, rating, review);
         productReview.productTitle = name;
-
-
 
         mDatabase.child(ProductReview.NODE).child(newReviewKey).setValue(productReview);
         mDatabase.child(ProductReview.NODE_USER).child(getUserId()).child(newReviewKey).setValue(productReview);

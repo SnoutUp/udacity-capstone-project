@@ -22,9 +22,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.udacity.garuolis.groceryreviews.R;
 import com.udacity.garuolis.groceryreviews.adapters.ProductListAdapter;
-import com.udacity.garuolis.groceryreviews.adapters.ShoppingListAdapter;
 import com.udacity.garuolis.groceryreviews.data.Product;
-import com.udacity.garuolis.groceryreviews.data.ProductReview;
 import com.udacity.garuolis.groceryreviews.data.ShopItem;
 import com.udacity.garuolis.groceryreviews.databinding.FragmentItemListBinding;
 
@@ -79,7 +77,7 @@ public class ProductListFragment extends Fragment implements ProductListAdapter.
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_item_list, container, false);
         mBinding.rvList.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ProductListAdapter(getContext(), this);
